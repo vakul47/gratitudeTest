@@ -1,0 +1,3 @@
+model/type.d.ts
+src/modules/**/*.spec.ts
+src/snakeNaming.strategy.ts

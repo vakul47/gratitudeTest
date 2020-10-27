@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TEST API",
+    "description": "TEST API Documentation",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "GratitudeCreateDto": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "to": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "to",
+          "reason"
+        ]
+      },
+      "GratitudeDto": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "reason"
+        ]
+      },
+      "GratitudeCollectionDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GratitudeDto"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "nextCursor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/api/gratitudes": {
+      "post": {
+        "operationId": "GratitudeController_create",
+        "summary": "Create gratitude",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GratitudeCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GratitudeDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "gratitudes"
+        ]
+      },
+      "get": {
+        "operationId": "GratitudeController_getList",
+        "summary": "List of gratitudes by recipient",
+        "parameters": [
+          {
+            "name": "id",
+            "required": false,
+            "in": "query",
+            "minLength": 16,
+            "maxLength": 16,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "perPage",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GratitudeCollectionDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "gratitudes"
+        ]
+      }
+    }
+  }
+}

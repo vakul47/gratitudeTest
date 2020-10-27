@@ -1,0 +1,7 @@
+{
+  "name": "@test/test-api",
+  "version": "0.0.1",
+  "main": "index.js",
+  "types": "type.d.ts",
+  "license": "ISC"
+}
